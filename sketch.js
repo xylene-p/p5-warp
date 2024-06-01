@@ -1,8 +1,21 @@
+let theShader;
+
+function preload() {
+  // Load the shader
+  theShader = loadShader("shader.vert", "shader.frag");
+}
+
 function setup() {
-  createCanvas(400, 400); // Create a canvas
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  noStroke();
 }
 
 function draw() {
-  background(220); // Set the background color
-  ellipse(mouseX, mouseY, 50, 50); // Draw a circle at the mouse position
+  // Send the frameCount to the shader
+  shader(theShader);
+  theShader.setUniform("u_resolution", [width, height]);
+  theShader.setUniform("u_time", frameCount * 0.01);
+
+  // Render a rectangle that fills the screen
+  rect(0, 0, width, height);
 }
